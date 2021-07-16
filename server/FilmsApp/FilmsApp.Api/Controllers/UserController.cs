@@ -26,7 +26,7 @@ namespace FilmsApp.Api.Controllers
 
         [HttpPost("sign-in")]
         [AllowAnonymous]
-        public async Task<ActionResult> SignInAsync([FromBody] SignInDto signIn, CancellationToken token)
+        public async Task<ActionResult<UserAuth>> SignInAsync([FromBody] SignInDto signIn, CancellationToken token)
         {
             var validate = await _user.ValidateUserAsync(signIn.Username, signIn.Password, token);
 
@@ -43,27 +43,16 @@ namespace FilmsApp.Api.Controllers
                 new (ClaimTypes.Name, user.Username)
             };
 
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authUser = TokenUtils.BuildUserAuthObject(user, claims);
 
-            var authProperties = new AuthenticationProperties
-            {
-                
-            };
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme, 
-                new ClaimsPrincipal(claimsIdentity), 
-                authProperties);
-
-            return Ok();
+            return Ok(authUser);
         }
 
         [HttpPost("sign-out")]
         [Authorize]
         public async Task<ActionResult> SignOutAsync()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync();
 
             return Ok();
         }

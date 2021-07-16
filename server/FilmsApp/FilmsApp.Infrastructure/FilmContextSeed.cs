@@ -30,8 +30,8 @@ namespace FilmsApp.Infrastructure
         {
             return new List<User>()
             {
-                new User() {Username = "example", Password = "pass"},
-                new User() {Username = "example1", Password = "pass1"}
+                new User() {Username = "example", Password = BCrypt.Net.BCrypt.HashPassword("pass")},
+                new User() {Username = "example1", Password = BCrypt.Net.BCrypt.HashPassword("pass1")}
             };
         }
 

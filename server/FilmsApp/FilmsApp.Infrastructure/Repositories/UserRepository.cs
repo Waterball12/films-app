@@ -1,5 +1,4 @@
-﻿
-#nullable enable
+﻿#nullable enable
 using FilmsApp.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -19,13 +18,18 @@ namespace FilmsApp.Infrastructure.Repositories
         /// <inheritdoc />
         public async Task<User?> GetUserAsync(string username, string password, CancellationToken cancellationToken = default)
         {
-            return await _context.User.FirstOrDefaultAsync(x => x.Username == username && x.Password == password, cancellationToken);
+            return await _context.User.FirstOrDefaultAsync(x => x.Username == username, cancellationToken);
         }
 
         /// <inheritdoc />
         public async Task<bool> ValidateUserAsync(string username, string password, CancellationToken cancellationToken = default)
         {
-            return await _context.User.AnyAsync(x => x.Username == username && x.Password == password, cancellationToken);
+            var usr = await _context.User.FirstOrDefaultAsync(x => x.Username == username, cancellationToken);
+
+            if (usr == null)
+                return false;
+
+            return BCrypt.Net.BCrypt.Verify(password, usr.Password);
         }
 
         /// <inheritdoc />
@@ -33,7 +37,7 @@ namespace FilmsApp.Infrastructure.Repositories
         {
             var result = await _context.User.AddAsync(new User()
             {
-                Password = password,
+                Password = BCrypt.Net.BCrypt.HashPassword(password),
                 Username = username
             }, cancellationToken);
 

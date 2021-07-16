@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FilmsApp.Api.Dto;
 using FilmsApp.Domain.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FilmsApp.Api.Controllers
