@@ -12,21 +12,24 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace FilmsApp.Api
 {
+    /// <summary>
+    /// Utility class to generate JWT tokens
+    /// </summary>
     public class TokenUtils
     {
-        public static UserAuth BuildUserAuthObject(User user, List<Claim> claims)
+        /// <summary>
+        /// Generate a new token for the given <see cref="User"/>
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="claims"></param>
+        /// <returns></returns>
+        public static UserAuth GenerateTokenFor(User user, List<Claim> claims)
         {
-            var appUserAuth = new UserAuth();
-
-            // Set User Properties
-            appUserAuth.BearerToken = GetToken(user, claims);
-            appUserAuth.UserName = user.Username;
-
-            //build user-claims
-            foreach (var claim in claims)
+            var appUserAuth = new UserAuth
             {
-                appUserAuth.Claims.Add(new UserClaim { ClaimType = claim.Type, ClaimValue = claim.Value });
-            }
+                BearerToken = GetToken(user, claims),
+                UserName = user.Username
+            };
 
             return appUserAuth;
         }

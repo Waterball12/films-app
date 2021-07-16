@@ -32,10 +32,11 @@ namespace FilmsApp.Domain.Models
         /// <summary>
         /// Create a film watched record
         /// </summary>
-        /// <param name="id">Id of the film watched</param>
+        /// <param name="userId"></param>
+        /// <param name="filmId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>The created <see cref="FilmWatched"/></returns>
-        Task<FilmWatched> CreateFilmWatchedAsync(int id, CancellationToken cancellationToken = default);
+        Task<FilmWatched> CreateFilmWatchedAsync(int userId, int filmId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Remove a film watched record

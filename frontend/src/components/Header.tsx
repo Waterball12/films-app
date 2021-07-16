@@ -98,7 +98,6 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title} component={Link} to="/">
                         Films
                     </Typography>
-                    <Button color="inherit" component={Link} to="/watched">Watched</Button>
                     <Button color="inherit" onClick={handleOpen}>Login</Button>
                 </Toolbar>
             </AppBar>

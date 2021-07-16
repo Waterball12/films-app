@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FilmsApp.Api.Dto
 {
+    /// <summary>
+    /// Dto for signin in the user
+    /// </summary>
     public class SignInDto
     {
         [Required]
@@ -12,16 +15,12 @@ namespace FilmsApp.Api.Dto
         public string Password { get; set; }
     }
 
+    /// <summary>
+    /// Response for the sign in endpoint containing the bearer token
+    /// </summary>
     public class UserAuth
     {
         public string UserName { get; set; }
         public string BearerToken { get; set; }
-        public List<UserClaim> Claims { get; set; } = new List<UserClaim>();
-    }
-
-    public class UserClaim
-    {
-        public string ClaimType { get; set; }
-        public string ClaimValue { get; set; }
     }
 }

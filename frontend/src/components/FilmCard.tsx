@@ -8,23 +8,35 @@ export interface FilmCardProps {
     name: string;
     rating: number;
     release: Date;
+    onWatched: (id: number) => void;
 }
 
-const FilmCard = (film: FilmCardProps) => {
+const FilmCard = (props: FilmCardProps) => {
+
+    const {
+        id,
+        name,
+        onWatched
+    } = props;
+
+    const handleWatchedButton = () => {
+        onWatched && onWatched(id);
+    }
+
     return (
         <Card>
             <CardMedia
                 image="https://images.unsplash.com/photo-1626277828338-48bcc0272f1f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1048&q=80"
-                title={film.name}
+                title={name}
                 style={{height: 0, paddingTop: '56.25%'}}
             />
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    {film.name}
+                    {name}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
+                <IconButton onClick={handleWatchedButton}>
                     <FavoriteIcon />
                 </IconButton>
             </CardActions>

@@ -1,14 +1,9 @@
+using FilmsApp.Infrastructure;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FilmsApp.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 
 namespace FilmsApp.Api
 {
@@ -22,6 +17,8 @@ namespace FilmsApp.Api
 
             var context = scope.ServiceProvider.GetService<FilmContext>();
 
+            // Create a Seed for the film context
+            // So that we have some data to work on
             var seed = new FilmContextSeed();
 
             await seed.SeedAsync(context);

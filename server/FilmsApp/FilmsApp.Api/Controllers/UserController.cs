@@ -1,15 +1,12 @@
-﻿using System;
+﻿using FilmsApp.Api.Dto;
+using FilmsApp.Domain.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using FilmsApp.Api.Dto;
-using FilmsApp.Domain.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FilmsApp.Api.Controllers
 {
@@ -24,6 +21,12 @@ namespace FilmsApp.Api.Controllers
             _user = user;
         }
 
+        /// <summary>
+        /// Authenticate the user
+        /// </summary>
+        /// <param name="signIn"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         [HttpPost("sign-in")]
         [AllowAnonymous]
         public async Task<ActionResult<UserAuth>> SignInAsync([FromBody] SignInDto signIn, CancellationToken token)
@@ -40,14 +43,19 @@ namespace FilmsApp.Api.Controllers
 
             var claims = new List<Claim>
             {
-                new (ClaimTypes.Name, user.Username)
+                new (ClaimTypes.Name, user.Username),
+                new("UserId", user.Id.ToString())
             };
 
-            var authUser = TokenUtils.BuildUserAuthObject(user, claims);
+            var authUser = TokenUtils.GenerateTokenFor(user, claims);
 
             return Ok(authUser);
         }
 
+        /// <summary>
+        /// Sign out the user
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("sign-out")]
         [Authorize]
         public async Task<ActionResult> SignOutAsync()

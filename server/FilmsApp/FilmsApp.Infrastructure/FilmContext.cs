@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FilmsApp.Domain.Models;
+﻿using FilmsApp.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FilmsApp.Infrastructure

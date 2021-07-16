@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FilmsApp.Api.Dto;
+using FilmsApp.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FilmsApp.Api.Dto;
-using FilmsApp.Domain.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 
 namespace FilmsApp.Api.Controllers
 {
@@ -23,6 +20,11 @@ namespace FilmsApp.Api.Controllers
             _repository = repository;
         }
 
+        /// <summary>
+        /// Endpoint for fetching all films
+        /// No authorization required
+        /// </summary>
+        /// <returns>A collection of <see cref="FilmDto"/></returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<FilmDto>>> GetFilmAsync(CancellationToken cancellationToken)
@@ -31,7 +33,9 @@ namespace FilmsApp.Api.Controllers
 
             return films.Select(x => new FilmDto()
             {
-                Id = x.Id, Name = x.Name, Rating = x.Rating,
+                Id = x.Id,
+                Name = x.Name,
+                Rating = x.Rating,
                 Release = x.Release
             }).ToList();
         }

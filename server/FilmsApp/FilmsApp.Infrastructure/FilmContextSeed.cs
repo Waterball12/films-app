@@ -7,9 +7,11 @@ using FilmsApp.Domain.Models;
 
 namespace FilmsApp.Infrastructure
 {
+    /// <summary>
+    /// Create some dummy data
+    /// </summary>
     public class FilmContextSeed
     {
-
         public async Task SeedAsync(FilmContext context)
         {
             if (!context.User.Any())
